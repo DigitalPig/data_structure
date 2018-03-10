@@ -3,7 +3,7 @@ Test Stack module
 '''
 
 from ds import Stack
-
+import pytest
 
 def test_stack_push():
     test = Stack()
@@ -33,3 +33,8 @@ def test_stack_isEmpty():
     assert(test.isEmpty == False)
     test.pop()
     assert(test.isEmpty == True)
+
+def test_stack_empty_pop():
+    test = Stack()
+    with pytest.raises(TypeError) as empty_pop:
+        test.pop()
