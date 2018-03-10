@@ -23,3 +23,15 @@ def test_multiple_line_string():
 
     """
     assert(check_balance(string) == True)
+
+def test_unmatched_string_error():
+    string = ")"
+    assert(check_balance(string) == False)
+
+def test_multiple_par_match():
+    string = "(123 {sdfds [23]})"
+    assert(check_balance(string) == True)
+
+def test_multiple_par_unmatch_within():
+    string = "{ [} ]"
+    assert(check_balance(string) == False)

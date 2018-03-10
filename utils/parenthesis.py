@@ -17,12 +17,15 @@ def check_balance(string):
     '''
 
     parethesis = Stack()
+    par_dict = {')': '(', '}':'{', ']':'['}
     for s in string.strip():
-        if s == '(':
+        if s in par_dict.values():
             parethesis.push(s)
-        elif s == ')':
+        elif s in par_dict.keys():
             try:
-                parethesis.pop()
+                t = parethesis.pop()
+                if t != par_dict[s]:
+                    return False
             except TypeError:
                 return False
     if parethesis.size() != 0:
