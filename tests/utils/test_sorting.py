@@ -2,7 +2,7 @@
 Test sorting functions
 '''
 
-from utils import bubble_sort, selection_sort, insert_sort
+from utils import bubble_sort, selection_sort, insert_sort, merge_sort
 import random
 import pytest
 
@@ -18,3 +18,6 @@ def test_selection_sort(test_array):
 
 def test_insert_sort(test_array):
     assert(insert_sort(test_array) == sorted(test_array))
+
+def test_merge_sort(test_array):
+    assert(merge_sort(test_array) == sorted(test_array))

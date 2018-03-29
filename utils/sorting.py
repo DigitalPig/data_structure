@@ -47,3 +47,40 @@ def insert_sort(input_array):
             j -= 1
         array[j+1] = temp
     return array
+
+def merge_sort(input_array):
+    def m_sort(input_array, left, right):
+        array = input_array
+        if right - left > 1:
+            middle = (left + right) // 2
+            left_part = m_sort(array, left, middle)
+            right_part = m_sort(array, middle, right)
+            i = left
+            k = 0
+            j = 0
+
+            while (k < len(left_part)) and (j < len(right_part)):
+                if left_part[k] < right_part[j]:
+                    array[i] = left_part[k]
+                    k += 1
+                else:
+                    array[i] = right_part[j]
+                    j += 1
+                i += 1
+
+            while k < len(left_part):
+                array[i] = left_part[k]
+                i += 1
+                k += 1
+
+            while j < len(right_part):
+                tt = right_part[j]
+                array[i] = tt
+                i += 1
+                j += 1
+
+            return array[left:right]
+
+        else:
+            return array[left:right]
+    return m_sort(input_array, 0, len(input_array))
