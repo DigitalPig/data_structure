@@ -84,3 +84,40 @@ def merge_sort(input_array):
         else:
             return array[left:right]
     return m_sort(input_array, 0, len(input_array))
+
+
+def quick_sort(array):
+
+    # Define an inner function to do quick sort
+    def q_sort(array, left, right):
+        if right - left > 1:
+            pivot = array[left]
+            leftmark = left + 1
+            rightmark = right -1
+
+            # Start to move needles
+            while leftmark <= rightmark:
+                if array[leftmark] < pivot:
+                    leftmark += 1
+                elif array[rightmark] > pivot:
+                    rightmark -= 1
+                else:
+                    temp = array[rightmark]
+                    array[rightmark] = array[leftmark]
+                    array[leftmark] = temp
+                    leftmark += 1
+                    rightmark -= 1
+
+            # at this point left crosses over with right
+            temp = array[left]
+            array[left] = array[rightmark]
+            array[rightmark] = temp
+            array[left:rightmark] = q_sort(array, left, rightmark)
+            array[rightmark+1:right] = q_sort(array, rightmark+1, right)
+
+            return array[left:right]
+
+        else:
+            return array[left:right]
+
+    return q_sort(array, 0, len(array))
