@@ -125,6 +125,45 @@ class BinarySearchTree:
     def __setitem__(self, key, obj):
         self.put(key, obj)
 
+    def get(self, key):
+        '''
+        Search for an item in a BinarySearchTree
+        '''
+        if self.root is None:
+            return None
+        elif self.root.key == key:
+            return self.root.payload
+        else:
+            return self._get(self.root, key)
+
+    def _get(self, node, key):
+        '''
+        Recursively look for item
+        '''
+        if node.key == key:
+            return node.payload
+        left = node.leftChild
+        right = node.rightChild
+        if (left is None) and (right is None):
+            if node.key != key:
+                return None
+            else:
+                return node.payload
+        elif key < node.key:
+            return self._get(node.leftChild, key)
+        else:
+            return self._get(node.rightChild, key)
+
+    def __getitem__(self, key):
+        return self.get(key)
+
+    def __contains__(self, key):
+        if self.root is None:
+            return False
+        elif self.root.key == key:
+            return True
+        else:
+            return self._get(self.root, key) is not None
 
 class TreeNode:
     def __init__(self,key,val,left=None,right=None,

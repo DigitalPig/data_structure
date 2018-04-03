@@ -54,7 +54,7 @@ def test_binary_tree_add_right():
     assert(test.root.right.right == Node(4))
     assert(test.root.right.left is None)
 
-def test_binary_search_tree():
+def test_binary_search_tree_put():
     test = BinarySearchTree()
     test.put(2,'a')
     assert(test.root == TreeNode(2,'a'))
@@ -64,3 +64,23 @@ def test_binary_search_tree():
     assert(test.root.rightChild == TreeNode(3, 'c'))
     test[4] = 'd'
     assert(test.root.rightChild.rightChild == TreeNode(4, 'd'))
+
+def test_binary_search_tree_get():
+    test = BinarySearchTree()
+    test.put(2,'a')
+    test.put(1, 'b')
+    test.put(3, 'c')
+    test[4] = 'd'
+    assert(test[2] == 'a')
+    assert(test[3] == 'c')
+
+def test_binary_search_tree_contains():
+    test = BinarySearchTree()
+    test.put(2,'a')
+    test.put(1, 'b')
+    test.put(3, 'c')
+    test[4] = 'd'
+    assert(2 in test)
+    assert(not (7 in test))
+    test2 = BinarySearchTree()
+    assert(not (2 in test2))
