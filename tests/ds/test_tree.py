@@ -2,7 +2,7 @@
 Test Tree module
 '''
 
-from ds.tree import Node, BinaryTree
+from ds.tree import Node, BinaryTree, BinarySearchTree, TreeNode
 
 def test_node_init():
     test = Node(1)
@@ -53,3 +53,14 @@ def test_binary_tree_add_right():
     assert(test.root.right == Node(3))
     assert(test.root.right.right == Node(4))
     assert(test.root.right.left is None)
+
+def test_binary_search_tree():
+    test = BinarySearchTree()
+    test.put(2,'a')
+    assert(test.root == TreeNode(2,'a'))
+    test.put(1, 'b')
+    assert(test.root.leftChild == TreeNode(1, 'b'))
+    test.put(3, 'c')
+    assert(test.root.rightChild == TreeNode(3, 'c'))
+    test[4] = 'd'
+    assert(test.root.rightChild.rightChild == TreeNode(4, 'd'))
