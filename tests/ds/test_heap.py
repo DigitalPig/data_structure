@@ -27,3 +27,9 @@ def test_binary_heap_delmin():
     test2 = BinaryHeap()
     test2.content = [0, 9, 14, 11, 17, 18, 19, 21, 33, 27]
     assert(test == test2)
+
+def test_binary_heap_in_place():
+    test = [9, 5, 17, 14, 18]
+    test2 = BinaryHeap()
+    test2.buildHeap(test)
+    assert(test2.content == [0, 5, 9, 17, 14, 18])
