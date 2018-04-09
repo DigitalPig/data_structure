@@ -1,6 +1,8 @@
 '''
 This is the tree module
 '''
+import math
+from ds.queue import Queue
 
 class Node():
     def __init__(self, value, left=None, right=None):
@@ -83,7 +85,7 @@ class BinaryTree():
         start_node.right = Node(obj)
 
 
-class BinarySearchTree:
+class BinarySearchTree():
 
     def __init__(self):
         self.root = None
@@ -165,6 +167,35 @@ class BinarySearchTree:
         else:
             return self._get(self.root, key) is not None
 
+    def __str__(self):
+        '''
+        Print the whole tree out
+        This function still needs extensive work to make it work
+        '''
+
+        def calc_offset(node):
+            if node.hasLeftChild() is not None:
+                return node.str_length // 2 + calc_offset(node.hasLeftChild())
+            else:
+                return 1
+
+        def offset_print(node, offset):
+            if node is None:
+                return ''
+            else:
+                string = offset_print(node.hasRightChild(), offset + node.str_length) + '\n' + \
+                         ''.join([' '] * offset) + node.__str__() + '\n' + \
+                         offset_print(node.hasLeftChild(), offset + node.str_length)
+                return string
+
+        if self.root is None:
+            return ''
+        else:
+            offset = calc_offset(self.root)
+            return offset_print(self.root, offset)
+
+
+
 class TreeNode:
     def __init__(self,key,val,left=None,right=None,
                                        parent=None):
@@ -173,6 +204,7 @@ class TreeNode:
         self.leftChild = left
         self.rightChild = right
         self.parent = parent
+        self.str_length = len(str(self.key) + ':' + str(self.payload)) + 2
 
     def hasLeftChild(self):
         return self.leftChild
@@ -210,3 +242,16 @@ class TreeNode:
 
     def __eq__(self, other):
         return (self.key == other.key) and (self.payload == other.payload)
+
+    def __str__(self):
+        '''
+        Representation of TreeNode
+        '''
+
+        total_length = self.str_length
+        node_str = '[{key}:{value}]'.format(key=self.key, value=self.payload)
+        # node_str = \
+        # '''+{{top:-^{length}}}+
+        # |   [{{key}}:{{value}}]   |
+        # +{{bottom:-^{length}}}+'''.format(length=total_length).format(top='-', bottom='-',key=self.key, value=self.payload)
+        return node_str

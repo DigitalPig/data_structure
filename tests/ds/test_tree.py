@@ -79,8 +79,15 @@ def test_binary_search_tree_contains():
     test.put(2,'a')
     test.put(1, 'b')
     test.put(3, 'c')
-    test[4] = 'd'
+    print(test[1])
+    #test[4] = 'd'
     assert(2 in test)
     assert(not (7 in test))
     test2 = BinarySearchTree()
     assert(not (2 in test2))
+
+def test_binary_search_tree_delete():
+    test = BinarySearchTree()
+    test.put(2, 'a')
+    test.put(1, 'b')
+    pass
