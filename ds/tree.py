@@ -116,11 +116,13 @@ class BinarySearchTree():
         if key <= node.key:
             if left is None:
                 node.leftChild = TreeNode(key, obj)
+                node.leftChild.parent = node
             else:
                 self._put(node.hasLeftChild(), key, obj)
         else:
             if right is None:
                 node.rightChild = TreeNode(key, obj)
+                node.rightChild.parent = node
             else:
                 self._put(node.hasRightChild(), key, obj)
 
@@ -136,21 +138,26 @@ class BinarySearchTree():
         elif self.root.key == key:
             return self.root.payload
         else:
-            return self._get(self.root, key)
+            if self._get(self.root, key) is None:
+                return None
+            else:
+                return self._get(self.root, key).payload
 
     def _get(self, node, key):
         '''
         Recursively look for item
         '''
+        if node is None:
+            return None
         if node.key == key:
-            return node.payload
+            return node
         left = node.leftChild
         right = node.rightChild
         if (left is None) and (right is None):
             if node.key != key:
                 return None
             else:
-                return node.payload
+                return node
         elif key < node.key:
             return self._get(node.leftChild, key)
         else:
@@ -194,7 +201,75 @@ class BinarySearchTree():
             offset = calc_offset(self.root)
             return offset_print(self.root, offset)
 
+    def delete(self, key):
+        '''
+        Delete the key from the Binary Search Tree
+        '''
 
+        def find_max(node):
+            '''
+            Helper function to find the successor for a node that is being
+            deleted.
+            '''
+            if node.hasRightChild() is not None:
+                return find_max(node.hasRightChild())
+            else:
+                return node
+
+        def isolate_node(node):
+            '''
+            Helper function to isolate out the node
+            '''
+            if node.isLeaf():
+                if node.isLeftChild():
+                    node.parent.leftChild = None
+                else:
+                    node.parent.rightChild = None
+            elif node.hasLeftChild():
+                if node.isLeftChild():
+                    node.parent.leftChild = node.hasLeftChild()
+                else:
+                    node.parent.rightChild = node.hasLeftChild()
+                node.hasLeftChild().parent = node.parent
+            else:
+                if node.isLeftChild():
+                    node.parent.leftChild = node.hasRightChild()
+                else:
+                    node.parent.rightChild = node.hasRightChild()
+                node.hasRightChild().parent = node.parent
+
+
+        if self.root is None:
+            raise IndexError('Cannot delete item from an empty BST!')
+        if self.get(key) is None:
+            raise IndexError('BST does not contain key {0}'.format(key))
+
+        currentNode = self._get(self.root, key)
+        if currentNode.isLeaf():
+            if currentNode.isLeftChild():
+                currentNode.parent.leftChild = None
+            else:
+                currentNode.parent.rightChild = None
+        elif (currentNode.hasLeftChild() and (currentNode.hasRightChild() is None) or
+              currentNode.hasRightChild() and (currentNode.hasLeftChild() is None)):
+            if currentNode.hasLeftChild():
+                new_current = currentNode.hasLeftChild()
+            else:
+                new_current = currentNode.hasRightChild()
+            if currentNode.isLeftChild:
+                currentNode.parent.leftChild = new_current
+                new_current.parent = currentNode.parent
+            elif currentNode.isRightChild:
+                currentNode.parent.rightChild = new_current
+                new_current.parent = currentNode.parent
+            else:
+                currentNode.replaceNodeData(new_current.key, new_current.payload,
+                                            new_current.hasLeftChild(), new_current.hasRightChild())
+        else:
+            # Now we are dealing with both children cases
+            successor = find_max(currentNode.hasLeftChild())
+            isolate_node(successor)
+            currentNode.replaceNodeData(successor.key, successor.payload, currentNode.hasLeftChild(), currentNode.hasRightChild())
 
 class TreeNode:
     def __init__(self,key,val,left=None,right=None,
