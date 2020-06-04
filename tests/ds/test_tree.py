@@ -99,12 +99,9 @@ def test_binary_search_tree_delete():
     test.put(29,'r')
     test.put(38, 't')
     test.delete(16)
-    print(test)
     assert(test.get(16) is None)
     assert(test._get(test.root, 11).hasRightChild() is None)
     test.delete(35)
-    print(test)
     assert(test.get(35) is None)
-    assert(test.get(17).rightChild == test.get(29))
-    assert(False == True)
+    assert(test._get(test.root, 17).rightChild == test._get(test.root, 29))
 
